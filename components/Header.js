@@ -1,19 +1,24 @@
+import { useAppContext } from '../context/context'
 import style from '../styles/Header.module.css'
-import truncateEthAddress from 'truncate-eth-address'
-import ConnectWalletBtn from './ConnectWalletBtn'
 import UserCard from './UserCard'
+import WalletConnectBtn from './ConnectWalletBtn'
+import logo from '../public/Polygon.png'
+
+import Image from 'next/image'
 const Header = () => {
-  // TODO: Get the connectWallet and address from context.
-  // TODO: Replace the static address with the currently logged in user.
-  const address = true
+  const { address, connectWallet } = useAppContext()
   return (
     <div className={style.wrapper}>
-      <div className={style.title}>Lottery DAPP 💰</div>
-      {/* TODO: Conditionally render connect button if no user is logged in. */}
-      {/* TODO: pass in the address to the userCard */}
-      {/* TODO: pass in the connect Wallet function to the connect Wallet Button. */}
-
-      {address ? <UserCard /> : <ConnectWalletBtn />}
+      <div className={style.title}>
+        <Image src={logo} height={100} width={200}/>
+      </div>
+      <div className={style.title}>Lottery</div>
+      
+      {!address ? (
+        <WalletConnectBtn connectWallet={connectWallet} />
+      ) : (
+        <UserCard address={address} />
+      )}
     </div>
   )
 }
